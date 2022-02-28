@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="style/main.css">
+        <title>Работа с файлами</title>
+    </head>
+
+    <body>
+        <script src="scripts/Vue.js"></script>
+        <script src="scripts/jszip.js"></script>
+        <script src="scripts/first_page.js"></script>
+
+        <script type="text/x-template" id="firstPage">
+            <div id="vueFile">
+                <div id="app">
+                    <div id="main">
+                        Введите имя файла:
+                        <div id="fileName" contenteditable></div>
+                        Введите расширение файла:
+                        <div id="fileExpansion" contenteditable></div>
+                        <br>
+                        <input id="fileInput" type="file" @change="readfile($event)" multiple>
+                        <br>
+        		        <button id="select" @click="readerButton()">Загрузить</button>
+                        <button id="download" @click="writefile()">Сохранить</button>
+                        <p>
+                        <button id="add" @click="addZip()">Добавить в Zip</button>
+                        <button id="create" @click="createZip()">Скачать Zip</button>
+                        <button id="clear" @click="clearZip()">Новый Zip</button></p>
+                    </div>
+
+                    <div id="result">Файлы в архиве:</div>
+                        
+
+                    <div id="fileOutput" contenteditable>Введите текст</div>
+
+                </div>
+            </div>
+        </script>
+
+        <div id="vueFile">
+			<component v-bind:is="getPage"></component>
+		</div>
+
+        <script>
+            var myVueFileReader = new Vue(
+            {
+                el: '#vueFile',
+
+                data:
+                {
+                    zip: '',
+                    selPage: 'firstPage'
+                },
+
+                computed:
+                {
+                    getPage: function()
+                    {
+                        zip = new JSZip();
+
+                        if (this.selPage == 'firstPage')
+                        {
+                            return 'firstPage';
+                        }
+                        else
+                        {
+                            if (this.selPage == 'secondPage')
+                            {
+                                return 'secondPage';
+                            }
+                            else
+                            {
+                                if (this.selPage == 'direct')
+                                {
+                                    return 'direct';
+                                }
+                                else
+                                {
+                                    if (this.selPage == 'archiving')
+                                    {
+                                        return 'archiving';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+
+    </body>
+</html>

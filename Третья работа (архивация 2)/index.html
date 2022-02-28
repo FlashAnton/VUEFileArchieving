@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="style/main.css">
+        <title>Работа с файлами</title>
+    </head>
+
+    <body>
+        <script src="scripts/Vue.js"></script>
+        <script src="scripts/first_page.js"></script>
+        <script src="scripts/second_page.js"></script>
+        <script src="scripts/directory.js"></script>
+        <script src="scripts/archiving.js"></script>
+
+        <script type="text/x-template" id="firstPage">
+            <div id="vueFile">
+                Введите имя файла:
+                <div id="fileName" contenteditable></div>
+                Введите расширение файла:
+                <div id="fileExpansion" contenteditable></div>(работает не со всеми расширениями, из рабочих c, cpp, py, js, txt)
+                <br>
+                <input id="fileInput" type="file" @change="readfile($event)" accept="text/plain">
+                <br>
+		        <button id="select" @click="readerButton()">Загрузить</button>
+                <p><button id="download" @click="writefile()">Сохранить</button></p>
+
+                <div id="fileOutput" contenteditable>Введите текст</div>
+
+                <button id="next" @click="next">Директории</button>
+            </div>
+        </script>
+
+        <script type="text/x-template" id="direct">
+            <div id="vueFile">
+                <button id="back" @click="back">Файл</button>
+                <button id="next" @click="next">Архивация</button>
+            </div>
+        </script>
+
+        <script type="text/x-template" id="archiving">
+            <div id="vueFile">
+                <button id="back" @click="back">Директории</button>
+            </div>
+        </script>
+
+        <div id="vueFile">
+			<component v-bind:is="getPage"></component>
+		</div>
+
+        <script>
+            var myVueFileReader = new Vue(
+            {
+                el: '#vueFile',
+
+                data:
+                {
+                    selPage: 'firstPage'
+                },
+
+                computed:
+                {
+                    getPage: function()
+                    {
+                        if (this.selPage == 'firstPage')
+                        {
+                            return 'firstPage';
+                        }
+                        else
+                        {
+                            if (this.selPage == 'secondPage')
+                            {
+                                return 'secondPage';
+                            }
+                            else
+                            {
+                                if (this.selPage == 'direct')
+                                {
+                                    return 'direct';
+                                }
+                                else
+                                {
+                                    if (this.selPage == 'archiving')
+                                    {
+                                        return 'archiving';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+
+    </body>
+</html>
